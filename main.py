@@ -53,5 +53,6 @@ for x, doc in enumerate(docs_x):
     trainig.append(bag)
     output.append(output_row)
 
-
+training = numpy.array(training)
+output = numpy.array(output)
 
