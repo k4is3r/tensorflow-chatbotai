@@ -38,7 +38,7 @@ labels = sorted(labels)
 trainig = []
 output = []
 
-out_empy = [0 for _ in range(len(labels))]
+out_empty = [0 for _ in range(len(labels))]
 
 for x, doc in enumerate(docs_x):
     bag = []
