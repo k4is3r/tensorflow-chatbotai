@@ -13,7 +13,7 @@ with open("intents.json") as file:
     data = json.load(file)
 
 words = []
-lables = []
+labels = []
 docs = []
 
 for intent in data["intents"]:
