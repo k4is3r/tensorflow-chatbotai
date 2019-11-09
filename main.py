@@ -35,7 +35,7 @@ words = sorted(list(set(words)))
 labels = sorted(labels)
 
 #creating the training test
-trainig = []
+training = []
 output = []
 
 out_empty = [0 for _ in range(len(labels))]
@@ -50,7 +50,7 @@ for x, doc in enumerate(docs_x):
             bag.append(0)
     output_row = out_empty[:]
     output_row[labels.index(docs_y[x])] = 1
-    trainig.append(bag)
+    training.append(bag)
     output.append(output_row)
 
 #change variables to numpy for traing
