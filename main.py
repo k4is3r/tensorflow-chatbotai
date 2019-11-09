@@ -22,13 +22,13 @@ for intent in data["intents"]:
     for pattern in intent["patterns"]:
         wrds = nltk.word_tokenize(pattern)
         words.extend(wrds)
-        docs_x.append(pattern)
+        docs_x.append(wrds)
         docs_y.append(intent["tag"])
         
     if intent["tag"] not in labels:
         labels.append(intent["tag"])
  
-words = [stemmer.stem(w.lower()) for w in words]
+words = [stemmer.stem(w.lower()) for w in words if w !="?"]
 
 words = sorted(list(set(words)))
 
@@ -53,6 +53,9 @@ for x, doc in enumerate(docs_x):
     trainig.append(bag)
     output.append(output_row)
 
+#change variables to numpy for traing
 training = numpy.array(training)
 output = numpy.array(output)
+
+#stating model to traing
 
