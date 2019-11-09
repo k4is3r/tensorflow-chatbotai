@@ -14,14 +14,43 @@ with open("intents.json") as file:
 
 words = []
 labels = []
-docs = []
+docs_x = []
+docs_y = []
+
 
 for intent in data["intents"]:
     for pattern in intent["patterns"]:
         wrds = nltk.word_tokenize(pattern)
         words.extend(wrds)
-        docs.append(pattern)
+        docs_x.append(pattern)
+        docs_y.append(intent["tag"])
         
     if intent["tag"] not in labels:
         labels.append(intent["tag"])
  
+words = [stemmer.stem(w.lower()) for w in words]
+
+words = sorted(list(set(words)))
+
+labels = sorted(labels)
+
+#creating the training test
+trainig = []
+output = []
+
+out_empy = [0 for _ in range(len(classes))]
+
+for x, doc in enumerate(docs_x):
+    bag = []
+    wrds = [stemmer.stem(w) for w in doc]
+    for w in words:
+        if w in wrds:
+            bag.append(1)
+        else:
+            bag.append(0)
+
+
+
+
+
+
