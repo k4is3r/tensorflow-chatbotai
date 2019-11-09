@@ -2,12 +2,22 @@ import nltk
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
+import os
 import numpy
 import tflearn
-import tensorflow as tf
+#import tensorflow as tf
 import random
 import json 
 import pickle
+
+
+#to eliminate deprecated and warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+from tensorflow.python.util import deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
+
 
 
 with open("intents.json") as file:
@@ -60,8 +70,8 @@ except:
     #change variables to numpy for traing
     training = numpy.array(training)
     output = numpy.array(output)
-    with open("data.pickle", "w") as f:
-        pickle.dump((words, lavels, training, output),f)
+    with open("data.pickle", "wb") as f:
+        pickle.dump((words, labels, training, output),f)
 
 #stating model to traing
 tf.reset_default_graph()
@@ -93,7 +103,7 @@ def bag_of_words(s, words):
     for se in s_words:
         for i, w in enumerate(words):
             if w == se:
-                bag[i].append(1)
+                bag[i] = 1
     return numpy.array(bag)
 
 
@@ -103,4 +113,12 @@ def chat():
         inp = input("You: ")
         if inp.lower() == "quit":
             break
-        model.predict([bag_of_words(inp, words)])
+        results = model.predict([bag_of_words(inp, words)])
+        results_index = numpy.argmax(results)
+        tag = labels[results_index]
+        for tg in data["intents"]:
+            if tg['tag'] == tag:
+                responses = tg['responses']
+        print(random.choice(responses))
+
+chat()
